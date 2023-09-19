@@ -50,6 +50,12 @@ A rota `/dados-json` serve os dados JSON enviados anteriormente por meio do form
 
 ![Exemplo de Uso do /dados-json](assets/load.gif)
 
----
+## Como usar o app localmente
 
-Este é um guia básico de como usar as rotas do aplicativo. Sinta-se à vontade para personalizar a documentação e os GIFs conforme necessário.
+Para isso, é necessário clonar o repositório. Na raiz do repositório, utilize o comando:
+
+```shell
+node app.js
+```
+
+No seu navegador insira a url **`http://localhost:3000/formulario`**.
