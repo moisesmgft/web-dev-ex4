@@ -1,16 +1,18 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs'); // Importe o módulo fs
+const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); // Use o método express.urlencoded para analisar os dados do formulário
+
+// Pasta de destino para uploads
+const pastaUploads = path.join(__dirname, 'uploads');
 
 // Função para excluir todos os arquivos na pasta /uploads
 function excluirArquivosUploads() {
-  const pastaUploads = path.join(__dirname, 'uploads');
-
   fs.readdir(pastaUploads, (err, arquivos) => {
     if (err) {
       console.error('Erro ao listar arquivos na pasta /uploads:', err);
@@ -37,10 +39,11 @@ excluirArquivosUploads();
 // Configuração do Multer para o destino do upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, pastaUploads);
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    // Defina um nome padrão para todos os arquivos enviados (por exemplo, "arquivo.json")
+    cb(null, 'arquivo.json');
   },
 });
 
