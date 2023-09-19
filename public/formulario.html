@@ -54,5 +54,35 @@
             });
         });
     </script>
+
+    <h2>Formulário GET:</h2>
+    <form action="/processar-formulario-get" method="get">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+
+    <h2>Dados JSON:</h2>
+    <button onclick="carregarDadosJSON()">Carregar Dados JSON</button>
+    <pre id="dados-json"></pre>
+    <script>
+        function carregarDadosJSON() {
+            fetch('/dados-json')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const dadosJsonElement = document.getElementById('dados-json');
+                        dadosJsonElement.textContent = JSON.stringify(data.data, null, 2);
+                    } else {
+                        alert(data.message); // Exibe uma mensagem de erro, se aplicável
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
 </body>
 </html>

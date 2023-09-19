@@ -71,6 +71,48 @@ app.post('/upload-arquivo', upload.single('arquivo'), (req, res) => {
   res.status(200).json({ success: true, message: 'Sucesso: O arquivo JSON foi enviado com sucesso.' });
 });
 
+app.get('/processar-formulario-get', (req, res) => {
+    // Obtenha os dados do formulário dos parâmetros de consulta (query params)
+    const nome = req.query.nome;
+    const email = req.query.email;
+  
+    // Aqui, você pode processar os dados conforme necessário
+    // Por exemplo, você pode exibi-los em uma resposta HTML
+    const respostaHTML = `
+      <html>
+      <head>
+          <title>Dados do Formulário</title>
+      </head>
+      <body>
+          <h1>Dados Recebidos do Formulário:</h1>
+          <p>Nome: ${nome}</p>
+          <p>Email: ${email}</p>
+      </body>
+      </html>
+    `;
+  
+    res.send(respostaHTML);
+});
+  
+
+// Rota para servir dados JSON
+app.get('/dados-json', (req, res) => {
+    fs.readFile(path.join(pastaUploads, 'arquivo.json'), 'utf8', (err, data) => {
+      if (err) {
+        console.error('Erro ao ler arquivo JSON:', err);
+        return res.status(500).json({ success: false, message: 'Erro ao ler o arquivo JSON.' });
+      }
+  
+      try {
+        const jsonData = JSON.parse(data);
+        res.status(200).json({ success: true, data: jsonData });
+      } catch (error) {
+        console.error('Erro ao analisar JSON:', error);
+        res.status(500).json({ success: false, message: 'Erro ao analisar o arquivo JSON.' });
+      }
+    });
+});
+
 app.listen(port, () => {
   console.log(`Servidor está rodando na porta ${port}`);
 });
