@@ -6,38 +6,39 @@
 </head>
 <body>
     <h1>Formulário de Exemplo</h1>
+    <!-- Div para exibir mensagens -->
     <form action="/upload-arquivo" method="post" enctype="multipart/form-data">
         <label for="arquivo">Selecione um arquivo JSON:</label>
         <input type="file" id="arquivo" name="arquivo" accept=".json" required>
         <br>
         <input type="submit" value="Enviar Arquivo">
     </form>
-    <!-- Div para exibir mensagens de erro ou sucesso -->
     <div id="mensagem"></div>
+
     <script>
-        // Função para exibir mensagens na página
+        // Função para exibir mensagens
         function exibirMensagem(mensagem, isSuccess) {
             const mensagemDiv = document.getElementById('mensagem');
             mensagemDiv.innerHTML = mensagem;
             mensagemDiv.style.color = isSuccess ? 'green' : 'red';
-    
+
             // Limpe a mensagem após alguns segundos (por exemplo, 5 segundos)
             setTimeout(function () {
                 mensagemDiv.innerHTML = '';
             }, 5000); // Tempo em milissegundos (5 segundos)
         }
-    
+
         // Manipulador de envio de formulário
         document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault(); // Evite o envio normal do formulário
-    
+
             // Obtenha o formulário e o campo de arquivo
             const formulario = document.querySelector('form');
             const arquivoInput = document.getElementById('arquivo');
-    
+
             // Crie um objeto FormData para enviar o arquivo
             const formData = new FormData(formulario);
-    
+
             // Faça uma requisição AJAX para /upload-arquivo
             fetch('/upload-arquivo', {
                 method: 'POST',
@@ -53,6 +54,5 @@
             });
         });
     </script>
-    
 </body>
 </html>
